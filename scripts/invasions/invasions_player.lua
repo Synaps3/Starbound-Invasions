@@ -23,7 +23,31 @@ local InvasionSpawns = require "/scripts/invasions/InvasionSpawns.lua"
 
 local DEFAULT_CONFIG = {
   factions = {
-    { id = "penguinPirates", name = "Penguin Pirates", species = "penguin", npcType = "penguin", level = 6, aggressionThreshold = 100.0 }
+    {
+      id = "penguinPirates", name = "Penguin Pirates", species = "penguin", npcType = "penguin", level = 6, aggressionThreshold = 100.0,
+      enemies = {
+        { role = "raider", species = "penguin", npcType = "penguin", level = 6, weight = 5 },
+        { role = "brute", species = "penguin", npcType = "penguinbrute", level = 7, weight = 2 },
+        { role = "gunner", species = "penguin", npcType = "penguingunner", level = 7, weight = 2 },
+        { role = "captain", species = "penguin", npcType = "penguincaptain", level = 8, weight = 1 }
+      }
+    },
+    {
+      id = "floranHunters", name = "Floran Hunters", species = "floran", npcType = "floran", level = 7, aggressionThreshold = 130.0,
+      enemies = {
+        { role = "hunter", species = "floran", npcType = "floranhunter", level = 7, weight = 4 },
+        { role = "guard", species = "floran", npcType = "floranguard", level = 8, weight = 2 },
+        { role = "soldier", species = "floran", npcType = "floransoldier", level = 8, weight = 2 }
+      }
+    },
+    {
+      id = "humanBandits", name = "Human Bandits", species = "human", npcType = "bandit", level = 5, aggressionThreshold = 90.0,
+      enemies = {
+        { role = "bandit", species = "human", npcType = "bandit", level = 5, weight = 5 },
+        { role = "gunner", species = "human", npcType = "banditgunman", level = 6, weight = 3 },
+        { role = "boss", species = "human", npcType = "banditboss", level = 8, weight = 1 }
+      }
+    }
   },
   aggressionPerSecond = 2.0,
   aggressionDecayPerSecond = 0.5,

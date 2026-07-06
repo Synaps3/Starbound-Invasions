@@ -33,6 +33,41 @@ local function spawnInvader(species, npcType, level, position)
   return nil
 end
 
+-- Choose one enemy type for a single invader from the faction's roster.
+--
+-- `faction.enemies` is a list of enemy variants, each optionally weighted (via
+-- `weight`, default 1) so some types are more common than others. Falls back to
+-- the faction's top-level species/npcType/level when no roster is defined, which
+-- keeps older single-type faction definitions working. Returns a table with
+-- `species`, `npcType` and `level`.
+local function selectEnemy(faction)
+  local roster = faction.enemies
+  if type(roster) == "table" and #roster > 0 then
+    local totalWeight = 0
+    for _, enemy in ipairs(roster) do
+      totalWeight = totalWeight + (enemy.weight or 1)
+    end
+
+    local pick = math.random() * totalWeight
+    for _, enemy in ipairs(roster) do
+      pick = pick - (enemy.weight or 1)
+      if pick <= 0 then
+        return {
+          species = enemy.species or faction.species,
+          npcType = enemy.npcType or faction.npcType,
+          level = enemy.level or faction.level or 1
+        }
+      end
+    end
+  end
+
+  return {
+    species = faction.species,
+    npcType = faction.npcType,
+    level = faction.level or 1
+  }
+end
+
 -- Spawn a full wave of invaders around `origin`. Returns a live-tracking table:
 --   { ids = { <entityId>, ... }, goal = <number spawned> }
 function InvasionSpawns.spawnWave(faction, config, origin)
@@ -49,9 +84,12 @@ function InvasionSpawns.spawnWave(faction, config, origin)
       origin[2] + 2.0
     }
 
-    local npcId = spawnInvader(faction.species, faction.npcType, faction.level or 1, pos)
+    -- Pick a (possibly weighted) enemy type from this faction's roster so a
+    -- single wave can contain a mix of variants.
+    local enemy = selectEnemy(faction)
+    local npcId = spawnInvader(enemy.species, enemy.npcType, enemy.level, pos)
     if not npcId then
-      npcId = spawnInvader(fallback.species or "human", fallback.npcType or "bandit", fallback.level or faction.level or 1, pos)
+      npcId = spawnInvader(fallback.species or "human", fallback.npcType or "bandit", fallback.level or enemy.level or 1, pos)
     end
 
     if npcId then
