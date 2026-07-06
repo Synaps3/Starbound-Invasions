@@ -1,0 +1,10 @@
+[
+  [
+    { "op" : "test", "path" : "/genericScriptContexts" },
+    { "op" : "add", "path" : "/genericScriptContexts/StarboundInvasions", "value" : "/scripts/invasions/invasions_player.lua" }
+  ],
+  [
+    { "op" : "test", "path" : "/genericScriptContexts", "inverse" : true },
+    { "op" : "add", "path" : "/genericScriptContexts", "value" : { "StarboundInvasions" : "/scripts/invasions/invasions_player.lua" } }
+  ]
+]
