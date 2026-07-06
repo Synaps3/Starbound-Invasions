@@ -64,6 +64,9 @@ local function beginAssault(invasion, faction, config, ctx)
   local live = ctx.spawns.spawnWave(faction, config, origin)
   ctx.live[invasion.factionId] = live
   invasion.state = "active"
+  -- Restart the clock so nonResponseDuration measures the active assault only,
+  -- independent of how long the gathering phase lasted.
+  invasion.elapsed = 0.0
   invasion.killCount = 0
   invasion.killGoal = live.goal
 

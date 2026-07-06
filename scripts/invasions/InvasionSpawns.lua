@@ -42,11 +42,11 @@ function InvasionSpawns.spawnWave(faction, config, origin)
   local fallback = config.invaderFallback or {}
 
   for _ = 1, count do
-    local angle = math.random() * 2 * math.pi
-    local dist = math.random() * radius
+    -- Spread invaders horizontally around the colony, just above ground level
+    -- so they don't spawn embedded in terrain or high in the air.
     local pos = {
-      origin[1] + math.cos(angle) * dist,
-      origin[2] + math.abs(math.sin(angle) * dist) + 2.0
+      origin[1] + (math.random() * 2 - 1) * radius,
+      origin[2] + 2.0
     }
 
     local npcId = spawnInvader(faction.species, faction.npcType, faction.level or 1, pos)
