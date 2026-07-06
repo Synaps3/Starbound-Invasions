@@ -1,0 +1,12 @@
+{
+  "name" : "starbound-invasions",
+  "friendlyName" : "Starbound Invasions",
+  "author" : "Synaps3",
+  "version" : "0.1.0",
+  "description" : "Adds invading armies (such as the Penguin Pirates) which gather their forces and attack your colonies. Defend your settlements before the raiders overrun them!",
+  "tags" : "Gameplay|NPCs|Colony",
+  "includes" : [],
+  "requires" : [],
+  "priority" : 0,
+  "link" : "https://github.com/Synaps3/Starbound-Invasions"
+}
